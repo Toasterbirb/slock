@@ -296,7 +296,9 @@ readpw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
 					                     locks[screen]->win,
 					                     locks[screen]->colors[color]);
 					XClearWindow(dpy, locks[screen]->win);
-					writemessage(dpy, locks[screen]->win, screen);
+
+					if (messageEnabled)
+						writemessage(dpy, locks[screen]->win, screen);
 				}
 				oldc = color;
 			}
@@ -470,9 +472,12 @@ main(int argc, char **argv) {
 	nscreens = ScreenCount(dpy);
 	if (!(locks = calloc(nscreens, sizeof(struct lock *))))
 		die("slock: out of memory\n");
+
 	for (nlocks = 0, s = 0; s < nscreens; s++) {
 		if ((locks[s] = lockscreen(dpy, &rr, s)) != NULL) {
-		    writemessage(dpy, locks[s]->win, s);
+			if (messageEnabled)
+				writemessage(dpy, locks[s]->win, s);
+
 			nlocks++;
 		}
 		else {

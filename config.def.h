@@ -11,6 +11,9 @@ static const char *colorname[NUMCOLS] = {
 /* treat a cleared input like a wrong password (color) */
 static const int failonclear = 1;
 
+/* enable message */
+static const int messageEnabled = 0; /* 0 = disabled, 1 = enabled */
+
 /* default message */
 static const char * message = "Suckless: Software that sucks less.";
 
